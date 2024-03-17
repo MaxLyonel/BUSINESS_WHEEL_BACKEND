@@ -51,7 +51,7 @@ export class UsersController {
   }
 
   @Patch(':id')
-  async update(@Param('id', ParseIntPipe) id: number, @Body(new ValidationPipe) updateUserDto: UpdateUserDto) {
+  async update(@Param('id') id: number, @Body(new ValidationPipe) updateUserDto: UpdateUserDto) {
     const updateUser = await this.usersService.update(+id, updateUserDto)
     return updateUser ? {
       error: false, 

@@ -3,9 +3,9 @@ import { CreateUserDto } from './create-user.dto';
 import { IsBoolean, IsNotEmpty, IsNumberString, IsOptional, IsString, MinLength } from 'class-validator';
 
 export class UpdateUserDto extends PartialType(CreateUserDto) {
-    @IsNotEmpty({ message: 'El $property es obligatorio' })
-    @IsNumberString({}, {message: "El $property debe ser una cadena numerica"})
-    id: number
+    // @IsNotEmpty({ message: 'El $property es obligatorio' })
+    // @IsNumberString({}, {message: "El $property debe ser una cadena numerica"})
+    // id: number
 
     @IsOptional()
     @IsNotEmpty({ message: 'El $property es obligatorio' })
