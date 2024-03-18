@@ -31,10 +31,10 @@ const dataSource = new DataSource(
 
 dataSource.initialize()
 .then(() => {
-    console.log("Base de datos inicializada")
+    // console.log("Base de datos inicializada")
 })
 .catch((err) => {
-    console.error("Base de dato no inicialidada", err)
+    console.error("Base de dato no inicialidada\n", err)
 })
 
 export default dataSource;

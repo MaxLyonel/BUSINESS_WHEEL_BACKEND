@@ -1,11 +1,17 @@
-import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import { ConfigModule, ConfigService } from '@nestjs/config';
-import { TypeOrmModule } from '@nestjs/typeorm'
-import { AuthenticationModule } from './authentication/authentication.module';
-import { UsersManagement } from './user_management/userManagement.module';
-import { PersonsModule } from './persons/persons.module';
+import { Module }                      from '@nestjs/common'
+import { TypeOrmModule }               from '@nestjs/typeorm'
+import { ConfigModule, ConfigService } from '@nestjs/config'
+
+import { AppController }               from './app.controller'
+import { AppService }                  from './app.service'
+
+/* sub-modules */
+import { AuthenticationModule }        from './authentication/authentication.module'
+import { UsersManagement }             from './user_management/userManagement.module'
+import { PersonsModule }               from './persons/persons.module'
+
+/* external */
+import { DataSource } from 'typeorm';
 
 @Module({
   imports: [
@@ -15,7 +21,6 @@ import { PersonsModule } from './persons/persons.module';
     TypeOrmModule.forRootAsync({
       inject: [ ConfigService ],
       useFactory: async (configService: ConfigService) => {
-        console.log(configService.get<string>('DATABASE_NAME'))
         return {
           type: 'postgres',
           host: configService.get<string>('DATABASE_HOST'),
@@ -24,7 +29,8 @@ import { PersonsModule } from './persons/persons.module';
           password: configService.get<string>('DATABASE_PASSWORD'),
           database: configService.get<string>('DATABASE_NAME'),
           entities: ['dist/**/*.entity.{js,ts}'],
-          synchronize: false,
+          synchronize: true,
+          entityPrefix: 'business_'
         }
       }
     }),
@@ -35,4 +41,6 @@ import { PersonsModule } from './persons/persons.module';
   controllers: [ AppController ],
   providers: [ AppService ],
 })
-export class AppModule {}
+export class AppModule {
+  constructor(private dataSource: DataSource) {}
+}
